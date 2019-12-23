@@ -1,0 +1,6 @@
+# IDEA specific files
+.idea
+*.iml
+
+# build result files
+target
