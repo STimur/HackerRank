@@ -5,6 +5,8 @@ import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -17,6 +19,7 @@ public class SolutionTest {
 				new Object[]{new int[]{1}, 1, 1},
 				new Object[]{new int[]{1, 1}, 2, 2},
 				new Object[]{new int[]{1, 2}, 2, 1},
+				new Object[]{new int[]{2, 1, 1}, 2, 2},
 		};
 	}
 
@@ -27,6 +30,7 @@ public class SolutionTest {
 	}
 
 	static int maximumToys(int[] prices, int k) {
+		Arrays.sort(prices);
 		int ans = 0;
 
 		for (int i = 0; i < prices.length; i++)
