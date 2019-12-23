@@ -65,9 +65,9 @@ public class SolutionTest {
 		System.out.printf("Last Element: %d\n", a[n - 1]);
 	}
 
-  private static void swap(int[] a, int i, int j) {
-    int t = a[i];
-    a[i] = a[j];
-    a[j] = t;
-  }
+	private static void swap(int[] a, int i, int j) {
+		int t = a[i];
+		a[i] = a[j];
+		a[j] = t;
+	}
 }
