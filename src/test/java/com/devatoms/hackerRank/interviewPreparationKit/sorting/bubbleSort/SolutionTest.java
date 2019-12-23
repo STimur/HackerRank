@@ -26,7 +26,9 @@ public class SolutionTest {
 	@Test
 	public void swap() {
 		int[] array = {1, 2};
+
 		swap(array, 0, 1);
+
 		assertThat(array[0], is(2));
 		assertThat(array[1], is(1));
 	}
