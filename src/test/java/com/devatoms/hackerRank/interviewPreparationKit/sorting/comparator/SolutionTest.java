@@ -1,22 +1,30 @@
 package com.devatoms.hackerRank.interviewPreparationKit.sorting.comparator;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Comparator;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+@RunWith(JUnitParamsRunner.class)
 public class SolutionTest {
 
+	private Object[] testData() {
+		return new Object[] {
+				new Object[]{new Player("a", 0), new Player("a", 1), 1},
+				new Object[]{new Player("a", 0), new Player("a", 0), 0},
+				new Object[]{new Player("a", 1), new Player("a", 0), -1},
+		};
+	}
+
 	@Test
-	public void compare_first_is_greater() {
-		Player a = new Player("a", 0);
-		Player b = new Player("b", 1);
-
-		Checker checker = new Checker();
-
-		assertThat(checker.compare(a, b), is(1));
+	@Parameters(method = "testData")
+	public void compare(Player a, Player b, int result) {
+		assertThat(new Checker().compare(a, b), is(result));
 	}
 
 	class Player {
@@ -31,7 +39,7 @@ public class SolutionTest {
 
 	class Checker implements Comparator<Player> {
 		public int compare(Player a, Player b) {
-			return 1;
+			return b.score - a.score;
 		}
 	}
 }
