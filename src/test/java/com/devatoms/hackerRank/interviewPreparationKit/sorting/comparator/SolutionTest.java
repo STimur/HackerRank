@@ -18,6 +18,12 @@ public class SolutionTest {
 				new Object[]{new Player("a", 0), new Player("a", 1), 1},
 				new Object[]{new Player("a", 0), new Player("a", 0), 0},
 				new Object[]{new Player("a", 1), new Player("a", 0), -1},
+
+				new Object[]{new Player("a", 0), new Player("b", 0), -1},
+				new Object[]{new Player("a", 0), new Player("a", 0), 0},
+				new Object[]{new Player("b", 0), new Player("a", 0), 1},
+
+				new Object[]{new Player("a", 0), new Player("b", 1), 1}
 		};
 	}
 
@@ -39,6 +45,10 @@ public class SolutionTest {
 
 	class Checker implements Comparator<Player> {
 		public int compare(Player a, Player b) {
+
+			if (a.score == b.score)
+				return a.name.compareTo(b.name);
+
 			return b.score - a.score;
 		}
 	}
