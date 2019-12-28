@@ -63,6 +63,8 @@ public class SolutionTest {
 	}
 
 	private static float getMedian(int[] count, int d) {
+		float med = 0;
+
 		if (d % 2 == 0) {
 			int numOfElems = 0;
 			int m1 = -1;
@@ -77,10 +79,9 @@ public class SolutionTest {
 					break;
 				}
 			}
-			return (m1 + m2) / 2.0f;
+			med = (m1 + m2) / 2.0f;
 		} else {
 			int numOfElems = 0;
-			float med = -1;
 
 			for (int i = 0; i < count.length; i++) {
 				numOfElems += count[i];
@@ -89,7 +90,8 @@ public class SolutionTest {
 					break;
 				}
 			}
-			return med;
 		}
+
+		return med;
 	}
 }
