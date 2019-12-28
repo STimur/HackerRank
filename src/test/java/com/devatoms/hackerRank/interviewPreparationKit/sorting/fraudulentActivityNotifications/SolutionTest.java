@@ -5,15 +5,13 @@ import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Arrays;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnitParamsRunner.class)
 public class SolutionTest {
 
-	private Object[] testData() {
+	private Object[] testDataForActivityNotifications() {
 		return new Object[]{
 				new Object[]{new int[]{1}, 1, 0},
 				new Object[]{new int[]{1, 2}, 1, 1},
@@ -22,27 +20,76 @@ public class SolutionTest {
 		};
 	}
 
+	private Object[] testDataForGetMedian() {
+		int[] count = new int[31];
+		count[10] = count[20] = count[30] = 1;
+
+		return new Object[]{
+				new Object[]{new int[]{0, 1}, 1, 1.0f},
+				new Object[]{new int[]{0, 1, 0, 0, 1}, 2, 2.5f},
+				new Object[]{count, 3, 20.0f}
+		};
+	}
+
 	@Test
-	@Parameters(method = "testData")
+	@Parameters(method = "testDataForActivityNotifications")
 	public void activityNotifications(int[] expenditure, int d, int notificationsNumber) {
 		assertThat(activityNotifications(expenditure, d), is(notificationsNumber));
 	}
 
+	@Test
+	@Parameters(method = "testDataForGetMedian")
+	public void getMedian(int[] count, int d, float median) {
+		assertThat(getMedian(count, d), is(median));
+	}
+
 	static int activityNotifications(int[] expenditure, int d) {
 		int ans = 0;
+		int[] count = new int[201];
 
-		for (int i = 0; i + d < expenditure.length; i++) {
-			Arrays.sort(expenditure, i, i + d);
+		for (int i = 0; i < d; i++)
+			count[expenditure[i]]++;
 
-			float med = 0;
-			if (d % 2 == 0)
-				med = (expenditure[i + d / 2] + expenditure[i + d / 2 - 1]) / 2f;
-			else
-				med = expenditure[i + d / 2];
+		for (int i = d; i < expenditure.length; i++) {
+			float med = getMedian(count, d);
 
-			if (expenditure[i + d] >= med * 2)
+			if (expenditure[i] >= med * 2)
 				ans++;
+
+			count[expenditure[i]]++;
+			count[expenditure[i - d]]--;
 		}
 		return ans;
+	}
+
+	private static float getMedian(int[] count, int d) {
+		if (d % 2 == 0) {
+			int numOfElems = 0;
+			int m1 = -1;
+			int m2 = -1;
+
+			for (int i = 0; i < count.length; i++) {
+				numOfElems += count[i];
+				if (m1 == -1 && numOfElems >= d / 2)
+					m1 = i;
+				if (m2 == -1 && numOfElems >= d / 2 + 1) {
+					m2 = i;
+					break;
+				}
+			}
+			return (m1 + m2) / 2.0f;
+		} else {
+			int numOfElems = 0;
+			float med = -1;
+
+			for (int i = 0; i < count.length; i++) {
+				numOfElems += count[i];
+				if (numOfElems > d / 2) {
+					med = i;
+					break;
+				}
+			}
+			return med;
+		}
 	}
 }
