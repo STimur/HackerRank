@@ -61,6 +61,16 @@ public class SolutionTest {
 		assertDoubleLinkedListIs(sortedInsert(list.head, 4), intList(1, 2, 3, 4));
 	}
 
+	@Test
+	public void sixth_test() {
+		DoublyLinkedList list = new DoublyLinkedList();
+		list.insertNode(1);
+		list.insertNode(3);
+		list.insertNode(4);
+		list.insertNode(10);
+		assertDoubleLinkedListIs(sortedInsert(list.head, 5), intList(1, 3, 4, 5, 10));
+	}
+
 	static class DoublyLinkedListNode {
 		public int data;
 		public DoublyLinkedListNode next;
@@ -102,9 +112,13 @@ public class SolutionTest {
 
 		while (true) {
 			if (currentNode.data > data) {
+				if (currentNode.prev != null)
+					currentNode.prev.next = newNode;
 				currentNode.prev = newNode;
 				newNode.next = currentNode;
-				return newNode;
+				if (currentNode == head)
+					return newNode;
+				return head;
 			}
 			if (currentNode.next == null)
 				break;
