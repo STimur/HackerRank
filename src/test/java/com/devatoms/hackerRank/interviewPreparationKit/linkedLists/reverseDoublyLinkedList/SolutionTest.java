@@ -38,8 +38,41 @@ public class SolutionTest {
 		assertDoubleLinkedListIs(reverse(list.head), intList(1));
 	}
 
+	@Test
+	public void two_elements_list() {
+		DoublyLinkedList list = new DoublyLinkedList();
+		list.insertNode(1);
+		list.insertNode(2);
+		assertDoubleLinkedListIs(reverse(list.head), intList(2, 1));
+	}
+
+	@Test
+	public void three_elements_list() {
+		DoublyLinkedList list = new DoublyLinkedList();
+		list.insertNode(1);
+		list.insertNode(2);
+		list.insertNode(3);
+		assertDoubleLinkedListIs(reverse(list.head), intList(3, 2, 1));
+	}
+
 	static DoublyLinkedListNode reverse(DoublyLinkedListNode head) {
-		return head;
+		if (head == null)
+			return null;
+
+		DoublyLinkedListNode current = head;
+		DoublyLinkedListNode next = current.next;
+
+		while (true) {
+			DoublyLinkedListNode t = current.prev;
+			current.prev = current.next;
+			current.next = t;
+
+			if (next == null)
+				return current;
+
+			current = next;
+			next = current.next;
+		}
 	}
 
 	static class DoublyLinkedListNode {
