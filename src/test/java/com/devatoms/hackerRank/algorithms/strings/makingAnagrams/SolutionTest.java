@@ -19,19 +19,10 @@ public class SolutionTest {
 	static int makingAnagrams(String s1, String s2) {
 		HashMap<Character, Integer> dict = new HashMap<>();
 
-		for (char c : s1.toCharArray()) {
-			if (dict.containsKey(c))
-				dict.put(c, dict.get(c) + 1);
-			else
-				dict.put(c, 1);
-		}
-
-		for (char c : s2.toCharArray()) {
-			if (dict.containsKey(c))
-				dict.put(c, dict.get(c) - 1);
-			else
-				dict.put(c, -1);
-		}
+		for (char c : s1.toCharArray())
+			dict.compute(c, (k, v) -> v == null ? 1 : v + 1);
+		for (char c : s2.toCharArray())
+			dict.compute(c, (k, v) -> v == null ? -1 : v - 1);
 
 		return dict.values().stream().reduce(0, (a, b) -> a + Math.abs(b));
 	}
