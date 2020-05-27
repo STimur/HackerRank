@@ -1,21 +1,30 @@
 package com.devatoms.hackerRank.algorithms.strings.gemstones;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(JUnitParamsRunner.class)
 public class SolutionTest {
 
+	public Object testData() {
+		return new Object[]{
+				new Object[]{new String[]{"a", "a"}, 1},
+				new Object[]{new String[]{"a", "b"}, 0},
+				new Object[]{new String[]{"aa", "b"}, 0},
+		};
+	}
+
 	@Test
-	public void solution() {
-		assertThat(gemstones(new String[]{"a", "a"})).isEqualTo(1);
-		assertThat(gemstones(new String[]{"a", "b"})).isEqualTo(0);
-		assertThat(gemstones(new String[]{"aa", "b"})).isEqualTo(0);
+	@Parameters(method = "testData")
+	public void solution(String[] arr, int res) {
+		assertThat(gemstones(arr)).isEqualTo(res);
 	}
 
 	static int gemstones(String[] arr) {
