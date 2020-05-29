@@ -26,11 +26,23 @@ public class SolutionTest {
 
 	@Test
 	public void solution() {
-		separateNumbers("a");
+		separateNumbers("1");
 		assertThat(outContent.toString()).isEqualTo("NO");
+		outContent.reset();
+		separateNumbers("12");
+		assertThat(outContent.toString()).isEqualTo("YES");
 	}
 
 	static void separateNumbers(String s) {
+		if (s.length() == 1) {
+			System.out.print("NO");
+			return;
+		}
+
+		if (s.charAt(1) - s.charAt(0) == 1) {
+			System.out.print("YES");
+			return;
+		}
 		System.out.print("NO");
 	}
 }
