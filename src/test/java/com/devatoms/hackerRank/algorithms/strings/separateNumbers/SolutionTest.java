@@ -25,11 +25,25 @@ public class SolutionTest {
 	}
 
 	@Test
+	public void ancillary() {
+		assertThat(isSeparatable("1", 1)).isEqualTo(true);
+		assertThat(isSeparatable("13", 1)).isEqualTo(false);
+		assertThat(isSeparatable("1011", 2)).isEqualTo(true);
+		assertThat(isSeparatable("910", 2)).isEqualTo(true);
+	}
+
+	@Test
 	public void solution() {
 		separateNumbers("1");
 		assertThat(outContent.toString()).isEqualTo("NO");
 		outContent.reset();
 		separateNumbers("12");
+		assertThat(outContent.toString()).isEqualTo("YES");
+		outContent.reset();
+		separateNumbers("124");
+		assertThat(outContent.toString()).isEqualTo("NO");
+		outContent.reset();
+		separateNumbers("1011");
 		assertThat(outContent.toString()).isEqualTo("YES");
 	}
 
@@ -39,10 +53,24 @@ public class SolutionTest {
 			return;
 		}
 
-		if (s.charAt(1) - s.charAt(0) == 1) {
-			System.out.print("YES");
-			return;
+		int numOfCharsInInt = 1;
+		for (int i = 0; i < s.length() - 1; i++) {
+			if (s.charAt(i + 1) - s.charAt(i) != 1) {
+				System.out.print("NO");
+				return;
+			}
 		}
-		System.out.print("NO");
+		System.out.print("YES");
+	}
+
+	static boolean isSeparatable(String s, int numOfCharsInInt) {
+		for (int i = 0; i < s.length() - numOfCharsInInt; i += numOfCharsInInt) {
+			final Integer Int = Integer.valueOf(s.substring(i, i + numOfCharsInInt));
+			final Integer nextInt = Integer.valueOf(s.substring(i + numOfCharsInInt, i + 2 * numOfCharsInInt));
+			if (nextInt - Int != 1) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
