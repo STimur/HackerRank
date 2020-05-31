@@ -24,6 +24,11 @@ public class SolutionTest {
 		System.setOut(originalOut);
 	}
 
+	@Test(expected = NumberFormatException.class)
+	public void ancillary() {
+		Integer.parseInt("11111111111");
+	}
+
 	@Test
 	public void solution() {
 		separateNumbers("1");
@@ -40,6 +45,15 @@ public class SolutionTest {
 		outContent.reset();
 		separateNumbers("91011");
 		assertThat(outContent.toString()).isEqualTo("YES 9\n");
+		outContent.reset();
+		separateNumbers("111111111111111111111");
+		assertThat(outContent.toString()).isEqualTo("NO\n");
+		outContent.reset();
+		separateNumbers("10001001100210031004100510061007");
+		assertThat(outContent.toString()).isEqualTo("YES 1000\n");
+		outContent.reset();
+		separateNumbers("4294967295429496729642949672");
+		assertThat(outContent.toString()).isEqualTo("NO\n");
 	}
 
 	static void separateNumbers(String s) {
@@ -48,10 +62,10 @@ public class SolutionTest {
 			final String first = s.substring(0, numOfCharsInInt);
 
 			for (int i = 0; i < s.length() - numOfCharsInInt; ) {
-				final Integer cur = Integer.valueOf(s.substring(i, i + numOfCharsInInt));
+				final Long cur = Long.valueOf(s.substring(i, i + numOfCharsInInt));
 				final String next = String.valueOf(cur + 1);
 
-				if (!s.substring(i + numOfCharsInInt, i + numOfCharsInInt + next.length()).equals(next)) {
+				if (!(i + numOfCharsInInt + next.length() > s.length()) && !s.substring(i + numOfCharsInInt, i + numOfCharsInInt + next.length()).equals(next)) {
 					break;
 				}
 
