@@ -14,9 +14,9 @@ public class SolutionTest {
 	@Test
 	public void ancillary() {
 		assertThat(countDuplets(Arrays.asList(1L), 1)).isEqualTo(0);
-		assertThat(countDuplets(Arrays.asList(1L, 2L), 1)).isEqualTo(1);
-		assertThat(countDuplets(Arrays.asList(1L, 2L, 2L), 1)).isEqualTo(2);
-		assertThat(countDuplets(Arrays.asList(1L, 1L, 2L, 2L), 1)).isEqualTo(4);
+		assertThat(countDuplets(Arrays.asList(1L, 2L), 2)).isEqualTo(1);
+		assertThat(countDuplets(Arrays.asList(1L, 2L, 2L), 2)).isEqualTo(2);
+		assertThat(countDuplets(Arrays.asList(1L, 1L, 2L, 2L), 2)).isEqualTo(4);
 		assertThat(countDuplets(Arrays.asList(1L, 1L, 1L, 1L), 1)).isEqualTo(6);
 	}
 
@@ -38,11 +38,11 @@ public class SolutionTest {
 			return 0;
 
 		Map<Long, Long> numOfFirstElementsFor = new HashMap<>();
-		long count = 0;
+		long numOfDuplets = 0;
 
 		for (long n : arr) {
-			if (numOfFirstElementsFor.containsKey(n))
-				count += numOfFirstElementsFor.get(n);
+			final Long numOfNewDuplets = numOfFirstElementsFor.get(n);
+			numOfDuplets += numOfNewDuplets != null ? numOfNewDuplets : 0;
 
 			if (numOfFirstElementsFor.containsKey(n * r))
 				numOfFirstElementsFor.put(n * r, numOfFirstElementsFor.get(n * r) + 1);
@@ -50,6 +50,6 @@ public class SolutionTest {
 				numOfFirstElementsFor.put(n * r, 1L);
 		}
 
-		return count;
+		return numOfDuplets;
 	}
 }
