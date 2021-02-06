@@ -34,20 +34,14 @@ public class SolutionTest {
 	}
 
 	private long countDuplets(List<Long> arr, int r) {
-		if (arr.size() < 2)
-			return 0;
-
 		Map<Long, Long> numOfFirstElementsFor = new HashMap<>();
 		long numOfDuplets = 0;
 
 		for (long n : arr) {
 			final Long numOfNewDuplets = numOfFirstElementsFor.get(n);
-			numOfDuplets += numOfNewDuplets != null ? numOfNewDuplets : 0;
+			numOfDuplets += (numOfNewDuplets != null ? numOfNewDuplets : 0);
 
-			if (numOfFirstElementsFor.containsKey(n * r))
-				numOfFirstElementsFor.put(n * r, numOfFirstElementsFor.get(n * r) + 1);
-			else
-				numOfFirstElementsFor.put(n * r, 1L);
+			numOfFirstElementsFor.compute(n * r, (k, v) -> v == null ? 1 : v + 1);
 		}
 
 		return numOfDuplets;
