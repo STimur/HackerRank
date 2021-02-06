@@ -23,14 +23,30 @@ public class SolutionTest {
 	@Test
 	public void solution() {
 		assertThat(countTriplets(Arrays.asList(1L), 1)).isEqualTo(0);
-		assertThat(countTriplets(Arrays.asList(1L, 2L, 4L), 1)).isEqualTo(1);
+		assertThat(countTriplets(Arrays.asList(1L, 2L, 4L), 2)).isEqualTo(1);
+		assertThat(countTriplets(Arrays.asList(1L, 2L, 2L, 4L), 2)).isEqualTo(2);
+		assertThat(countTriplets(Arrays.asList(1L, 2L, 2L, 4L, 8L), 2)).isEqualTo(4);
+		assertThat(countTriplets(Arrays.asList(1L, 1L, 1L, 1L), 1)).isEqualTo(4);
+		assertThat(countTriplets(Arrays.asList(1L, 1L, 1L, 1L, 1L), 1)).isEqualTo(10);
 	}
 
 	static long countTriplets(List<Long> arr, long r) {
-		if (arr.size() < 3)
-			return 0;
+		Map<Long, Long> numOfFirstElementsFor = new HashMap<>();
+		Map<Long, Long> numOfDupletsFor = new HashMap<>();
+		long numOfTriplets = 0;
 
-		return 1;
+		for (long n : arr) {
+			final Long numOfNewTriplets = numOfDupletsFor.get(n);
+			numOfTriplets += (numOfNewTriplets != null ? numOfNewTriplets : 0);
+
+			final Long numOfNewDuplets = numOfFirstElementsFor.get(n);
+			if (numOfNewDuplets != null)
+				numOfDupletsFor.compute(n * r, (k, v) -> v == null ? numOfNewDuplets : v + numOfNewDuplets);
+
+			numOfFirstElementsFor.compute(n * r, (k, v) -> v == null ? 1 : v + 1);
+		}
+
+		return numOfTriplets;
 	}
 
 	private long countDuplets(List<Long> arr, int r) {
